@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 const comments = [
   "This video had me laughing so hard I almost fell off my chair!",
   "Wow, this is the most creative video I've seen in a long time.",
@@ -36,6 +38,15 @@ function stringReduce(str) {
   }, 0);
 }
 
+function generateCommentObj(index) {
+  return {
+    content: comments[index],
+    user_id: uuidv4(),
+    id: uuidv4(),
+    updated_at: new Date().setDate(new Date().getDate() - index).valueOf(),
+  };
+}
+
 export default function handler(req, res) {
   const { id } = req.query;
   // Split the hash into 3 parts of equal length
@@ -48,7 +59,11 @@ export default function handler(req, res) {
   const index2 = stringReduce(part2) % comments.length;
   const index3 = stringReduce(part3) % comments.length;
 
-  res
-    .status(200)
-    .json({ comments: [comments[index1], comments[index2], comments[index3]] });
+  res.status(200).json({
+    comments: [
+      generateCommentObj(index1),
+      generateCommentObj(index2),
+      generateCommentObj(index3),
+    ],
+  });
 }
