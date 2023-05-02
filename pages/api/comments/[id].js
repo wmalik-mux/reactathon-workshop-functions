@@ -43,8 +43,7 @@ function generateCommentObj(index) {
     content: comments[index],
     user_id: uuidv4(),
     id: uuidv4(),
-    updated_at:
-      new Date().setDate(new Date().getDate() - index).valueOf() / 1000,
+    updated_at: new Date().setDate(new Date().getDate() - index).valueOf(),
   };
 }
 
